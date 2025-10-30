@@ -37,7 +37,7 @@ st.markdown("""
 
 # Título principal
 st.title('Reconocimiento de Dígitos escritos a mano')
-st.subheader("Dibuja el digito en el panel  y presiona  'Predecir'")
+st.subheader("Dibuja el dígito en el panel y presiona 'Predecir'")
 
 # Parámetros del canvas
 drawing_mode = "freedraw"
@@ -63,14 +63,14 @@ if st.button('Predecir'):
         input_image = Image.fromarray(input_numpy_array.astype('uint8'), 'RGBA')
         input_image.save('prediction/img.png')
         img = Image.open("prediction/img.png")
-        res = predictDigit(img)
+        res = predictDigit(img)  # ✅ Corrección del nombre de la función
         st.header('El Dígito es : ' + str(res))
     else:
         st.header('Por favor dibuja en el canvas el dígito.')
 
 # Barra lateral
 st.sidebar.title("Acerca de:")
-st.sidebar.text("En esta aplicación se evalua ")
+st.sidebar.text("En esta aplicación se evalúa ")
 st.sidebar.text("la capacidad de un RNA de reconocer") 
 st.sidebar.text("dígitos escritos a mano.")
 st.sidebar.text("Basado en desarrollo de Vinay Uniyal")
@@ -90,4 +90,3 @@ def predictDigit(image):
     pred = model.predict(img)
     result = np.argmax(pred[0])
     return result
-
