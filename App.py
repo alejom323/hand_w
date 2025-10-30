@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import streamlit as st
 from streamlit_drawable_canvas import st_canvas
 
-# ✅ Función de predicción (mismo contenido, solo movida arriba)
+# ✅ Función de predicción (definida antes de usarse)
 def predictDigit(image):
     model = tf.keras.models.load_model("model/handwritten.h5")
     image = ImageOps.grayscale(image)
@@ -77,7 +77,7 @@ if st.button('Predecir'):
         input_image = Image.fromarray(input_numpy_array.astype('uint8'), 'RGBA')
         input_image.save('prediction/img.png')
         img = Image.open("prediction/img.png")
-        res = predictDigit(img)  # ✅ Ya está definida arriba
+        res = predictDigit(img)
         st.header('El Dígito es : ' + str(res))
     else:
         st.header('Por favor dibuja en el canvas el dígito.')
