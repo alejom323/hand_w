@@ -6,6 +6,20 @@ import matplotlib.pyplot as plt
 import streamlit as st
 from streamlit_drawable_canvas import st_canvas
 
+# ✅ Función de predicción (mismo contenido, solo movida arriba)
+def predictDigit(image):
+    model = tf.keras.models.load_model("model/handwritten.h5")
+    image = ImageOps.grayscale(image)
+    img = image.resize((28, 28))
+    img = np.array(img, dtype='float32')
+    img = img / 255
+    plt.imshow(img)
+    plt.show()
+    img = img.reshape((1, 28, 28, 1))
+    pred = model.predict(img)
+    result = np.argmax(pred[0])
+    return result
+
 # Configuración de página Streamlit
 st.set_page_config(page_title='Reconocimiento de Dígitos escritos a mano', layout='wide')
 
@@ -63,7 +77,7 @@ if st.button('Predecir'):
         input_image = Image.fromarray(input_numpy_array.astype('uint8'), 'RGBA')
         input_image.save('prediction/img.png')
         img = Image.open("prediction/img.png")
-        res = predictDigit(img)  # ✅ Corrección del nombre de la función
+        res = predictDigit(img)  # ✅ Ya está definida arriba
         st.header('El Dígito es : ' + str(res))
     else:
         st.header('Por favor dibuja en el canvas el dígito.')
@@ -76,17 +90,3 @@ st.sidebar.text("dígitos escritos a mano.")
 st.sidebar.text("Basado en desarrollo de Vinay Uniyal")
 #st.sidebar.text("GitHub Repository")
 #st.sidebar.write("[GitHub Repo Link](https://github.com/Vinay2022/Handwritten-Digit-Recognition)")
-
-# Función de predicción
-def predictDigit(image):
-    model = tf.keras.models.load_model("model/handwritten.h5")
-    image = ImageOps.grayscale(image)
-    img = image.resize((28, 28))
-    img = np.array(img, dtype='float32')
-    img = img / 255
-    plt.imshow(img)
-    plt.show()
-    img = img.reshape((1, 28, 28, 1))
-    pred = model.predict(img)
-    result = np.argmax(pred[0])
-    return result
