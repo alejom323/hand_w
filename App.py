@@ -6,6 +6,36 @@ import matplotlib.pyplot as plt
 import streamlit as st
 from streamlit_drawable_canvas import st_canvas
 
+# Estilos personalizados: fondo azul claro y tipografía cursiva
+st.markdown("""
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
+
+        body, .stApp {
+            background-color: #e3f2fd;
+            font-family: 'Dancing Script', cursive;
+        }
+
+        html, body, [class*="css"] {
+            color: black;
+            font-family: 'Dancing Script', cursive;
+        }
+
+        h1, h2, h3, h4, h5, h6, p, label, span, div {
+            font-family: 'Dancing Script', cursive !important;
+        }
+
+        section[data-testid="stSidebar"] {
+            background-color: #e3f2fd !important;
+        }
+
+        section[data-testid="stSidebar"] * {
+            color: black !important;
+            font-family: 'Dancing Script', cursive !important;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
 # App
 def predictDigit(image):
     model = tf.keras.models.load_model("model/handwritten.h5")
@@ -26,15 +56,13 @@ st.title('Reconocimiento de Dígitos escritos a mano')
 st.subheader("Dibuja el digito en el panel  y presiona  'Predecir'")
 
 # Add canvas component
-# Specify canvas parameters in application
 drawing_mode = "freedraw"
 stroke_width = st.slider('Selecciona el ancho de línea', 1, 30, 15)
-stroke_color = '#FFFFFF' # Set background color to white
+stroke_color = '#FFFFFF'
 bg_color = '#000000'
 
-# Create a canvas component
 canvas_result = st_canvas(
-    fill_color="rgba(255, 165, 0, 0.3)",  # Fixed fill color with some opacity
+    fill_color="rgba(255, 165, 0, 0.3)",
     stroke_width=stroke_width,
     stroke_color=stroke_color,
     background_color=bg_color,
@@ -43,7 +71,7 @@ canvas_result = st_canvas(
     key="canvas",
 )
 
-# Add "Predict Now" button
+# Predict button
 if st.button('Predecir'):
     if canvas_result.image_data is not None:
         input_numpy_array = np.array(canvas_result.image_data)
@@ -55,7 +83,7 @@ if st.button('Predecir'):
     else:
         st.header('Por favor dibuja en el canvas el digito.')
 
-# Add sidebar
+# Sidebar
 st.sidebar.title("Acerca de:")
 st.sidebar.text("En esta aplicación se evalua ")
 st.sidebar.text("la capacidad de un RNA de reconocer") 
